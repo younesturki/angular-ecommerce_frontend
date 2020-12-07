@@ -154,7 +154,7 @@ export class CheckoutComponent implements OnInit {
       purchase.shippingAddress.country = shippingCountry.name;
 
       // populate purchase - billing address
-      purchase.shippingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
+      purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
       const billingState: State = JSON.parse(JSON.stringify(purchase.billingAddress.state));
       const billingCountry: Country = JSON.parse(JSON.stringify(purchase.billingAddress.country));
       purchase.billingAddress.state = billingState.name;
@@ -180,10 +180,15 @@ export class CheckoutComponent implements OnInit {
    }
   resetCart() {
     // reset cart data
+    this.cartService.cartItems = [];
+    this.cartService.totalPrice.next(0);
+    this.cartService.totalQuantity.next(0);
 
     // reset the form
+    this.checkoutFormGroup.reset();
 
     // navigate back to the products page
+    this.router.navigateByUrl("/products");
   }
 
     get firstName() { return this.checkoutFormGroup.get('customer.firstName');}
